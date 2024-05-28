@@ -3,26 +3,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			characters: null,
 			planets: null,
+			currentPlanet: null,
+			currentPlanetUrl: "",
 			starships: [],
+			currentStarship: null,
+			currentStarshipUrl: "",
 			
 			
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
 			
-
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
 			
 
 			getCharacters: async () => {
@@ -62,6 +52,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 			},
 
+			settingPlanetUrl: (text) => { setStore({ currentPlanetUrl: text }); },
+
+			getCurrentPlanet: async () => {
+				const uri = getStore().currentPlanetUrl;
+				console.log(uri);
+				const response = await fetch(uri);
+				if (!response.ok) {
+					console.log("Error");
+					return;
+				}
+				const data = await response.json();
+				console.log(data.result);
+				setStore({ currentPlanet: data.result });
+			},
+
 			getStarships: async () => {
 				if (localStorage.getItem('starships')){
 					setStore({starships: JSON.parse(localStorage.getItem('starships'))})
@@ -80,6 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem('starships', JSON.stringify(data.results))
 
 			},
+			
 
 		}
 	};
