@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			starships: [],
 			currentStarship: null,
 			currentStarshipUrl: "",
+			favorites: [],
 			
 			
 		},
@@ -84,6 +85,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({starships: data.results});
 				localStorage.setItem('starships', JSON.stringify(data.results))
 
+			},
+
+			addFavorites: (favorite) => {
+				const store = getStore();
+				const existingFavorites = store.favorites;
+				const isAlreadyFavorite = existingFavorites.some(item => item.name === favorite.name && item.type === favorite.type);
+				if (!isAlreadyFavorite) {
+					setStore({ favorites: [...existingFavorites, favorite] });
+				}
+			},
+
+			removeFavorite: (name) => {
+				const existingFavorites = getStore().favorites;
+				const updatedFavorites = existingFavorites.filter(item => item.name !== name);
+				setStore({ favorites: updatedFavorites });
 			},
 			
 

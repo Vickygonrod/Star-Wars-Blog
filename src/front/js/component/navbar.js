@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import starWarsLogo from "../../img/star-wars-logo.png"
+import { Context } from "../store/appContext";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
+
+    const handleRemoveFavorite = (name) => {
+        actions.removeFavorite(name);
+    };
+
 	return (
 		
 	<nav className="navbar navbar-expand-lg mx-1 navbar-dark">
@@ -27,11 +34,28 @@ export const Navbar = () => {
 					<Link className="nav-link text-secondary" to="#">Contacts</Link>
         		</li>
         		<li className="nav-item dropdown">
-          			<a className="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Favourites</a>
-          			<ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-            		<li><a className="dropdown-item" href="#">Action</a></li>
-            		<li><a className="dropdown-item" href="#">Another action</a></li>
-          			</ul>
+          			<a className="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+					Favorites {store.favorites.length}</a>
+          			<ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+					  {store.favorites.length > 0 ? (
+                        store.favorites.map((item, index) => (
+                            <li key={index} className="dropdown-item text-danger ">
+
+                               <span><h7> {item.name} </h7></span>
+                               <span><p> {item.type}</p></span>
+							   <span 
+							   title="Delete"
+							   style={{ cursor: "pointer" }}
+							   onClick={() => handleRemoveFavorite(item.name)}>
+                                <i className="fas fa-trash-alt fs-7 text-danger mx-2"></i>
+                                </span>
+                            
+                            </li>
+                        ))
+                    ) : (
+                        <li className="dropdown-item">Empty list</li>
+                    )}
+					</ul>
         		</li>
         
       		</ul>
