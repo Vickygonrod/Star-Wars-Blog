@@ -13,3 +13,17 @@
   .heart {
     float: inline-end;
   }
+
+  #icons {
+    float:inline-end
+  }
+
+  .i {
+    float: inline-end;
+  }
+
+  #details{
+    float: inline-start;
+    padding: 0%;
+    margin-left: 0%;
+  }

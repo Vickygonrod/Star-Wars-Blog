@@ -9,6 +9,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			currentStarship: null,
 			currentStarshipUrl: "",
 			favorites: [],
+			contacts: [],
+			apiContact: "https://playground.4geeks.com/contact/",
+			agenda: "VictoriaG",
 			
 			
 		},
@@ -101,9 +104,105 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const updatedFavorites = existingFavorites.filter(item => item.name !== name);
 				setStore({ favorites: updatedFavorites });
 			},
+
+			createAgenda: async () => {
+				const uri = "https://playground.4geeks.com/contact/agendas/VictoriaG";
+				const options = {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json'
+					},
+					body: JSON.stringify()
+				} 
+
+				const response = await fetch(uri, options);
+				if (!response.ok) {
+					console.log('error', response.status, response.statusText);
+					return
+				}
+					
+				},
+
+				getContacts: async () => {
+					const uri = "https://playground.4geeks.com/contact/agendas/VictoriaG"
+					const response = await fetch(uri);
+					if (!response.ok) {
+						console.log('error', response.status, response.statusText);
+						return
+					}
+					const data = await response.json();
+					setStore({contacts: data.contacts});
+					console.log(data.contacts);
+				},
+
+				addContact: async (dataToSend) => {
+					const uri = `${getStore().apiContact}agendas/${getStore().agenda}/contacts`;
+					const otptions = {
+						method: 'POST',
+						headers: {
+							'Content-type': 'application/json'
+						},
+						body: JSON.stringify(dataToSend)
+					}
+					const response = await fetch(uri, otptions);
+					if (!response.ok) {
+						console.log('error', response.status, response.statusText);
+						return
+					}
+					if (response.ok) {
+						const newContact = await response.json();
+						setStore({ contacts: [...store.contacts, newContact] });
+					}
+					// const data = await response.json();
+					getActions().getContacts();
+			
+			},
+
+			deleteContact: async (contactId) => {
+				const uri = `https://playground.4geeks.com/contact/agendas/VictoriaG/contacts/${contactId}`
+				const options = {
+					method: 'DELETE',
+
+				}
+				const response = await fetch(uri, options);
+				if (!response.ok) {
+					console.log('error', response.status, response.statusText);
+					return
+				}
+
+				
+				getActions().getContacts();
+			},
+
+			
+		
+			editContact: async (task) =>  {
+				const uri = `https://playground.4geeks.com/contact/agendas/VictoriaG/contacts/${contactId}`
+		
+				const options = {
+					method: "PUT",
+					headers: { "Content-type": "application/json" },
+					body: JSON.stringify(editedContact)
+				};
+		
+				const response = await fetch(uri, options);
+		
+				if (!response.ok) {
+					console.log("Error", response.status, response.statusText);
+				};
+				if (response.ok) {
+					const updatedContact = await response.json();
+					setStore({ contacts: [...store.contacts, updatedContact] });
+				
+
+				getActions().getContacts();
+
+				}
+			}
+
 			
 
-		}
+		},
 	};
 };
 

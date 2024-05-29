@@ -33,9 +33,9 @@ const isFavorite = (name) => favorites.includes(name);
                 <img src={`https://starwars-visualguide.com/assets/img/characters/${index+1}.jpg`} alt="" />
                 <div className="card-body">                                   
                 <h5>{item.name}</h5>
-                <div className="card-body d-flex justify-content-between">
+                <div className="card-body d-flex justify-content-between ml-0 pl-0">
 
-                <Link to={`/charactersdetails/${index}`} className="text-warning"><h6>Details</h6></Link>    
+                <Link id="details" to={`/charactersdetails/${index}`} className="text-warning ml-0 pl-0"><h6>Details</h6></Link>    
                 <span onClick={() => toggleFavorite(item.name)} className="align-items-end">
                 <i title="Add Favorite" style={{ cursor: "pointer" }} className={isFavorite(item.name) ? "fas fa-heart text-danger fs-5" : "far fa-heart text-danger fs-5"}></i>
                 </span>

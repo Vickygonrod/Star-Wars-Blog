@@ -17,14 +17,18 @@ export const CharactersDetails = () => {
 
         <div className="container">
         {!store.characters[params.id] ? 'No hay datos' :
-            <div className="row">
-                <div className="col-row-6 col-row-sm-5 col-row-md-4 col-row-lg-3 col-row-xl-2">
-                    <div className="container card">
-                        <div className="card-header"><h4 className="card-title col-10">{store.characters[params.id].name}</h4>
-                            <span className="col-2 text-secondary"><Link to="/characters/" className="btn-secondary">X</Link>  </span>
+            <div className="row border text-light">
+                <div className="col-12">
+                        <div className="card-header row">
+                            <h4 className="card-title col-10">{store.characters[params.id].name}</h4>
+                            <span className="text-secondary d-flex justify-items-right col-2"><Link to="/characters/" className="text-secondary">X</Link></span>
                         </div>
-                        <img src= {`https://starwars-visualguide.com/assets/img/characters/${params.id_id}.jpg`} alt="name" className="img-top-alt"/>
-                        <div className="card-body text-left">
+                </div>
+                <div className="col-6">
+                    <img src= {`https://starwars-visualguide.com/assets/img/characters/${params.id}.jpg`} alt="name" className="img-top-alt"/>
+                </div>
+                <div className="text-left col-6">
+                    <div className="card-body">
                             <p className="card-text">Height: {store.characters[params.id].height}</p>
                             <p className="card-text">Mass: {store.characters[params.id].mass}</p>
                             <p className="card-text">Hair color: {store.characters[params.id].hair_color}</p>
@@ -32,13 +36,11 @@ export const CharactersDetails = () => {
                             <p className="card-text">Eye color: {store.characters[params.id].eye_color}</p>
                             <p className="card-text">Birth year: {store.characters[params.id].birth_year}</p>
                             <p className="card-text">Gender: {store.characters[params.id].gender}</p>
-                        </div>
-                        <div className="card-footer text-body-warning">
-                        <span id="heart"><i className="fa-regular fa-heart"></i></span>
-                        </div>
                     </div>
+                    
                 </div>
             </div>
+                
         }
         </div>
 

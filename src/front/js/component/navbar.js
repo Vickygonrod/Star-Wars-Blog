@@ -31,7 +31,7 @@ export const Navbar = () => {
 				<li className="nav-item">
 					<Link className="nav-link text-warning" to="/starships">Starships</Link>				</li>
         		<li className="nav-item">
-					<Link className="nav-link text-secondary" to="#">Contacts</Link>
+					<Link className="nav-link text-secondary" to="/contacts">Contacts</Link>
         		</li>
         		<li className="nav-item dropdown">
           			<a className="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 

@@ -16,13 +16,18 @@ export const StarshipsDetails = () => {
         <div className="container">
         {!store.starships[params.id] ? 'No hay datos' :
             <div className="row">
-                <div className="col-row-6 col-row-sm-5 col-row-md-4 col-row-lg-3 col-row-xl-2">
-                    <div className="container card">
-                        <div className="card-header"><h4 className="card-title col-10">{store.starships[params.id].name}</h4>
+                <div className="row border text-light">
+                    <div className="col-12">
+                        <div className="card-header row">
+                            <h4 className="card-title col-10">{store.starships[params.id].name}</h4>
                             <span className="col-2 text-secondary"><Link to="/starships/" className="btn-secondary">X</Link>  </span>
                         </div>
+                    </div>
+                    <div className="col-6">
                         <img src= {`https://starwars-visualguide.com/assets/img/starships/${params.id_id}.jpg`} alt={store.starships[params.id].name} className="img-top-alt" onError={imgError}/>
-                        <div className="card-body text-left">
+                    </div>    
+                    <div className="text-left col-6">
+                        <div className="card-body">
                             <p className="card-text">Model: {store.starships[params.id].model}</p>
                             <p className="card-text">Mass: {store.starships[params.id].mass}</p>
                             <p className="card-text">Manufacturer: {store.starships[params.id].manufacturer}</p>
@@ -33,9 +38,6 @@ export const StarshipsDetails = () => {
                             <p className="card-text">Cargo_Capacity: {store.starships[params.id].cargo_capacity}</p>
                             <p className="card-text">Hyperdrive Rating: {store.starships[params.id].hyperdrive_rating}</p>
 
-                        </div>
-                        <div className="card-footer text-body-warning">
-                        <span id="heart"><i className="fa-regular fa-heart"></i></span>
                         </div>
                     </div>
                 </div>
