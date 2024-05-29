@@ -176,7 +176,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			
 		
-			editContact: async (task) =>  {
+			editContact: async (contactId) =>  {
 				const uri = `https://playground.4geeks.com/contact/agendas/VictoriaG/contacts/${contactId}`
 		
 				const options = {
