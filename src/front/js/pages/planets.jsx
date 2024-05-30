@@ -40,7 +40,7 @@ const imgError = (event) => {
                 <img src={`https://starwars-visualguide.com/assets/img/planets/${index+1}.jpg`} alt={item.name} onError={imgError}/>
                 <div className="card-body">                                   
                 <h5>{item.name}</h5>
-                <div className="card-body d-flex justify-content-between">
+                <div className="d-flex justify-content-between">
                     <Link to={`/planetsdetails/${item.uid}`} onClick={() => handlePlanet(item.url)} className="text-warning">Details</Link>    
                     <span onClick={() => toggleFavorite(item.name)} className="align-items-end">
                         <i title="Add Favorite" style={{ cursor: "pointer" }} className={isFavorite(item.name) ? "fas fa-heart text-danger fs-5" : "far fa-heart text-danger fs-5"}></i>

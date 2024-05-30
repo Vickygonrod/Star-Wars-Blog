@@ -20,13 +20,13 @@ export const StarshipsDetails = () => {
                     <div className="col-12">
                         <div className="card-header row">
                             <h4 className="card-title col-10">{store.starships[params.id].name}</h4>
-                            <span className="col-2 text-secondary"><Link to="/starships/" className="btn-secondary">X</Link>  </span>
+                            <span className="col-2 text-secondary px-0 "><Link to="/starships/" className="btn-secondary px-0 float-end">X</Link>  </span>
                         </div>
                     </div>
-                    <div className="col-6">
-                        <img src= {`https://starwars-visualguide.com/assets/img/starships/${params.id_id}.jpg`} alt={store.starships[params.id].name} className="img-top-alt" onError={imgError}/>
+                    <div className="sm-col-3 md-col-6 lg-col-6">
+                        <img src= {`https://starwars-visualguide.com/assets/img/starships/${parseInt(params.id)+6}.jpg`} alt={store.starships[params.id].name} className="img-top-alt" onError={imgError}/>
                     </div>    
-                    <div className="text-left col-6">
+                    <div className="text-left sm-col-3 md-col-6 lg-col-6">
                         <div className="card-body">
                             <p className="card-text">Model: {store.starships[params.id].model}</p>
                             <p className="card-text">Mass: {store.starships[params.id].mass}</p>

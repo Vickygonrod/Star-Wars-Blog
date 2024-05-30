@@ -20,7 +20,7 @@ export const PlanetDetails = () => {
                     <div className="col-12">
                         <div className="card-header row">
                             <h4 className="card-title col-11">{store.currentPlanet.properties.name}</h4>
-                            <span className="col-1 text-secondary"><Link to="/planets/" className="btn-secondary">X</Link>  </span>
+                            <span className="col-1 text-secondary px-0"><Link to="/planets/" className="btn-secondary float-end">X</Link>  </span>
                         </div>
                     </div>
                     <div className="col-6">
