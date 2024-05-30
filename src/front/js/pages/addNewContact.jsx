@@ -34,8 +34,11 @@ export const AddContact = () => {
 
   return (
     <div className="container mt-5 text-light">
-      <h2>Contact Form</h2>
-      <Link to="/contacts"><h5 className='text-secondary'>X</h5></Link>
+      <div className='row'>
+      <h2 className='col-10'>Contact Form</h2>
+      <span className='col-2 pl-0 pr-1'><Link to="/contacts"><h5 className='text-secondary float-end'>X</h5></Link>
+      </span>
+      </div>
       <div className="rounded  p-3"> {/* Add rounded class here */}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">

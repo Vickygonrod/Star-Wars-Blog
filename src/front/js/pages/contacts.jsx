@@ -4,9 +4,10 @@ import { Context } from "../store/appContext";
 
 
 export const Contacts = () => {
-    const {actions, store} = useContext(Context);
+    const { actions, store } = useContext(Context);
     const [editingContact, setEditingContact] = useState(null);
     const [editingContactName, setEditingContactName] = useState("");
+
 
     const startEditingContact = (contact) => {
         setEditingContact(contact);
@@ -14,9 +15,26 @@ export const Contacts = () => {
     };
 
     const saveContact = async (contact) => {
-        await actions.editContact(contact.id, { name: editingContactName });
+        const uri = `https://playground.4geeks.com/contact/agendas/VictoriaG/contacts/${contact.id}`;
+
+        const updatedContact = { ...contact, name: editingContactName };
+
+        const options = {
+            method: "PUT",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(updatedContact)
+        };
+
+        const response = await fetch(uri, options);
+
+        if (!response.ok) {
+            console.log("Error", response.status, response.statusText);
+        }
+
         setEditingContact(null);
+        actions.getContacts(); // Refresh the contact list after saving
     };
+
     
     useEffect(() =>{
         actions.deleteContact();
@@ -25,11 +43,11 @@ export const Contacts = () => {
     
     
     return (
-        <div className="container text-light">
-            <h4 className="mb-3">Contacts</h4>
+        <div className="container text-light ">
+            <h4 className="mb-3 d-flex justify-content-center ">Contacts</h4>
             {store.contacts.map((item, id)=>
 
-                <div key={id} className="row text-light">
+                <div key={id} className="row text-light d-flex justify-content-center">
                 <ul className="list-group list-group-dark col-md-6 col-sm-8">
                     <li className="list-group-item mb-4 rounded bg-dark text-light">
                     {editingContact && editingContact.id === item.id ? (
@@ -41,7 +59,7 @@ export const Contacts = () => {
                                         onChange={(e) => setEditingContactName(e.target.value)}
                                     />
                                     <button
-                                        className="btn btn-secondary ms-2"
+                                        className="btn btn-secondary ms-2 "
                                         onClick={() => saveContact(item)}
                                     >
                                         Save
@@ -64,7 +82,9 @@ export const Contacts = () => {
                 </ul>
                 </div>
             )}
-                <Link to="/addcontact" className="btn btn-secondary">Add contact</Link>
+                <div className="d-flex justify-content-center">
+                <Link to="/addcontact" className="btn btn-secondary  ">Add contact</Link>
+                </div>
         </div>
     )
 }
