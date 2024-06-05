@@ -14,6 +14,7 @@ export const Navbar = () => {
 		
 	<nav className="navbar navbar-expand-lg mx-1 navbar-dark">
   		<div className="container-fluid">
+		<div>
 		  <Link className="navbar-brand" to="/">
 		  <img src={starWarsLogo} alt="Star wars Logo" height={"50"} />
 		</Link>
@@ -61,7 +62,18 @@ export const Navbar = () => {
       		</ul>
       
     	</div>
-  		</div>
+		</div>
+		<div>
+			<ul className="navbar-nav me-auto mb-2 mb-lg-0">
+				<li className="nav-item">
+					<Link className="nav-link text-warning" to="/signup">SignUp</Link>
+				</li>
+				<li className="nav-item">
+					<Link className="nav-link text-warning" to="/login">SignIn</Link>
+				</li>
+			</ul>
+		</div>
+		</div>
 	</nav>
 	
 	);
