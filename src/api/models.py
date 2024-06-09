@@ -137,3 +137,19 @@ class CharactersFavorites(db.Model):
         return {"id": self.id,
                 "user_id_c": self.user_id_c,
                 "character_id": self.character_id}
+
+
+class Followers(db.Model):
+    id = db.Column(db.Integer() , primary_key=True)
+    user_from_id = db.Column(db.Integer() , db.ForeignKey('users.id'))
+    to_user_from_id = db.relationship('Users' , foreign_keys=[user_from_id])
+    follower_id = db.Column(db.Integer() , db.ForeignKey('users.id'))
+    to_follower_id = db.relationship('Users' , foreign_keys=[follower_id])
+  
+    def __repr__(self):
+        return f'<Followers {self.id}>'
+
+    def serialize(self):
+        return {"id": self.id,
+                "user_from_id": self.user_from_id,
+                "follower_id": self.follower_id}
