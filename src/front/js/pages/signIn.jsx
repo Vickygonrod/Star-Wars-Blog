@@ -16,6 +16,8 @@ const Login = () => {
     e.preventDefault();
     const dataToSend = { email, password };
     console.log(dataToSend);
+    const url = process.env.BACKEND_URL + '/api/login'
+    
   };
 
   return (
