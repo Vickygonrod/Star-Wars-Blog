@@ -104,7 +104,7 @@ class Characters(db.Model):
                 "name": self.name,
                 "description": self.description,
                 "height" : self.height,
-                "home_planet" : self.home_planet}
+                "home_planet_id" : self.home_planet_id}
 
 
 class PlanetFavorites(db.Model):
