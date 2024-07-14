@@ -2,13 +2,20 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import starWarsLogo from "../../img/star-wars-logo.png"
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
     const handleRemoveFavorite = (name) => {
         actions.removeFavorite(name);
     };
+
+	const handleLogout = () => {
+		actions.userLogout()
+		navigate('/')
+	}
 
 	return (
 		
@@ -65,12 +72,25 @@ export const Navbar = () => {
 		</div>
 		<div>
 			<ul className="navbar-nav me-auto mb-2 mb-lg-0">
+				{store.accessToken ? 
+				<>
+				<li className="nav-item">
+					<button className="nav-link text-warning bg-dark" onClick={handleLogout}>Logout</button>
+				</li>
+				<li className="nav-item">
+					<Link className="nav-link text-warning" to={`/profile/${store.userData.id}`}>Profile</Link>
+				</li>
+				</>
+					:
+				<>
+				<li className="nav-item">
+					<Link className="nav-link text-warning" to="/login">Login</Link>
+				</li>
 				<li className="nav-item">
 					<Link className="nav-link text-warning" to="/signup">SignUp</Link>
 				</li>
-				<li className="nav-item">
-					<Link className="nav-link text-warning" to="/login">SignIn</Link>
-				</li>
+				</>
+				}
 			</ul>
 		</div>
 		</div>

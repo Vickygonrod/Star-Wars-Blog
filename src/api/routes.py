@@ -147,42 +147,43 @@ def login():
     response_body = {}
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    # Lógica de validación de email y contraseña
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
-    if user:
-        access_token = create_access_token(identity={'user_id': user.id})
-        response_body['message'] = 'User logeado'
+    print(user)
+    print(user.serialize())
+    if user is None:
+        return jsonify({"msg": "Wrong email"}) , 401
+    if password != user.password:
+        return jsonify({"msg": "Wrong password"}) , 401
+    else:
+        access_token = create_access_token(identity={'user_id': user.id,
+                                                     'email': user.email})
+        serialized_data = user.serialize()
+        response_body['message'] = 'User logged in'
         response_body['access_token'] = access_token
-        response_body['results'] = user.serialize()
+        response_body['data'] = serialized_data
         return response_body, 200
-    response_body['message'] = 'Bad username or password'
-    return response_body, 401
-
+    
 
 @api.route("/signup", methods=["POST"])
-@jwt_required()
 def signup():
     response_body = {}
-    email = request.json.get("email", None).lower()
-    password = request.json.get("password", None)
+    body = request.get_json()
+    email = body["email"].lower()
+    user = Users.query.filter_by(email=email).first()
     if user is None:
-        user = User(email=body["email"], password=body["password"], is_active=True)
+        user = Users(email=body["email"], password=body["password"], is_active=True)
         db.session.add(user)
         db.session.commit()
-        return jsonify({"msg": "User created"}) , 200
+        first_name = body.get("first_name" , " ")
+        last_name = body.get("last_name" , " ")
+        access_token = create_access_token(identity={'user_id': user.id,
+                                                     'email': user.email})
+        response_body['access_token'] = access_token
+        response_body['data'] = user.serialize()
+        response_body['message'] = 'User created and loggedIn'
+        return response_body , 200
     else:
         return jsonify({"msg": "User already exists"}) , 401
-    user = Users()
-    user.email = email
-    user.password = password
-    user.is_active = True
-    db.session.add(user)
-    db.session.commit()
-    access_token = create_access_token(identity={'user_id': user.id,
-                                                 'user_is_admin': user.is_admin})
-    response_body['message'] = 'User Registrado y logeado'
-    response_body['access_token'] = access_token
-    return response_body, 200
 
 
 @api.route("/profile", methods=["GET"])
@@ -196,6 +197,7 @@ def profile():
 
 
 @api.route('/users/<int:user_id>', methods=['GET', 'PUT', 'DELETE'])
+@jwt_required()
 def handle_users(user_id):
     response_body = {}
     if request.method == 'GET':

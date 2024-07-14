@@ -1,22 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+
+export const Signup = () => {
+  const { store, actions } = useContext(Context);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handlePassword1Change = (e) => {
+    setPassword1(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const dataToSend = { email, password };
-    console.log(dataToSend);
+  const handlePassword2Change = (e) => {
+    setPassword2(e.target.value);
   };
+
+  const handleReset = () => {
+    setEmail('');
+    setPassword1('');
+    setPassword2('');
+  }
+
+  const handleSignup = async (event) => {
+    event.preventDefault();
+    if (password1 == password2) {
+      const dataToSend = {
+        email: email,
+        password: password1,
+        is_active: true,
+        first_name: "",
+        last_name: "",
+      };
+      const url = `${process.env.BACKEND_URL}/api/signup`;
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
+      };
+      const response = await fetch(url, options)
+      console.log(response)
+      if (!response.ok) {
+        console.log('Error: ', response.status, response.statusText)
+        return
+      }
+      const data = await response.json()
+      console.log(data);
+      localStorage.setItem('token', data.access_token)
+      localStorage.setItem('user', JSON.stringify(data.data))
+      actions.logedIn(data)
+      handleReset()
+      navigate('/')
+    } else {
+      setPassword1('');
+      setPassword2('')
+    }
+  };
+
+
 
   return (
     <div className="container mt-5">
@@ -27,7 +78,7 @@ const Signup = () => {
               <h2 className="card-title text-center mb-3 display-5">
                 Sign Up
               </h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSignup}>
                 <div className="form-group mt-3 h6">
                   <label htmlFor="email" className="mb-1">
                     Email:
@@ -51,8 +102,22 @@ const Signup = () => {
                     className="form-control"
                     id="password"
                     placeholder="12345678"
-                    value={password}
-                    onChange={handlePasswordChange}
+                    value={password1}
+                    onChange={handlePassword1Change}
+                    required
+                  />
+                </div>
+                <div className="form-group mt-3 h6">
+                  <label htmlFor="password" className="mb-1">
+                    Repeat your password:
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    placeholder="12345678"
+                    value={password2}
+                    onChange={handlePassword2Change}
                     required
                   />
                 </div>
