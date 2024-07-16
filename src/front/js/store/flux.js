@@ -12,6 +12,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			contacts: [],
 			apiContact: "https://playground.4geeks.com/contact/",
 			agenda: "VictoriaG",
+			accessToken: null,
+			isLoggedIn: false,
+			userEmail: "",
+			userName: "",
+			isAdmin: true,
+			users: [],
+			userData: localStorage.getItem('user') ? localStorage.getItem('user') : '',
 			
 			
 		},
@@ -123,7 +130,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 				},
 
-				getContacts: async () => {
+			getContacts: async () => {
 					const uri = "https://playground.4geeks.com/contact/agendas/VictoriaG"
 					const response = await fetch(uri);
 					if (!response.ok) {
@@ -135,7 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(data.contacts);
 				},
 
-				addContact: async (dataToSend) => {
+			addContact: async (dataToSend) => {
 					const uri = `${getStore().apiContact}agendas/${getStore().agenda}/contacts`;
 					const otptions = {
 						method: 'POST',
@@ -174,8 +181,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().getContacts();
 			},
 
-			
-		
 			editContact: async (contactId) =>  {
 				const uri = `https://playground.4geeks.com/contact/agendas/VictoriaG/contacts/${contactId}`
 		
@@ -198,7 +203,76 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().getContacts();
 
 				}
-			}
+			},
+
+			loginUser: async (userData) => {
+				const uri = `${process.env.BACKEND_URL}/api/login`
+				const options = {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json',
+					},
+					body: JSON.stringify(userData)
+				}
+				const response = await fetch(uri, options)
+				if (!response.ok) {
+					console.log('Error: ', response.status, response.statusText);
+					return
+				}
+				const data = await response.json();
+				const access_token = data.access_token;
+				setStore({ accessToken: access_token })
+				setStore({ userData: data.data })
+				setStore({ isLoggedIn: true })
+				localStorage.setItem('token', data.access_token)
+				localStorage.setItem('user', JSON.stringify(data.data))
+			},
+
+		
+			oldLogin: () => {
+				if (localStorage.getItem('token' && 'user')) {
+					console.log('Hay usuario logeado:', localStorage.getItem('user'))
+					setStore({
+						accessToken: localStorage.getItem('token'),
+						userData: JSON.parse(localStorage.getItem('user')),
+						isLoggedIn: true
+					})
+				} else { console.log('No hay usuario logeado') }
+			},
+
+			userLogout: () => {
+				localStorage.removeItem('token')
+				localStorage.removeItem('user')
+				setStore({
+					accessToken: null,
+					userData: {},
+					isloggedIn: false
+				})
+			},
+
+			getProfile: async () => {
+				const userID = getStore().userData.id
+				const uri = `${process.env.BACKEND_URL}/api/profile/${userID}`
+				const options = {
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${getStore().accessToken}`
+					},
+				}
+		
+				const response = await fetch(uri, options)
+					if (!response.ok) {
+					console.log('Error: ', response.status, response.statusText);
+					return
+					}
+		
+				const data = await response.json();
+				console.log(data);
+				setStore({profile: data.message});
+			
+				},
+		
+	
 
 			
 
