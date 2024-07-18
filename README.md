@@ -1,3 +1,51 @@
+# Star Wars Blog
+
+## Overview
+
+This project is a blog dedicated to providing detailed information about Star Wars characters, planets, and starships. It leverages external APIs to fetch the latest data and presents it in an engaging and user-friendly format.
+
+<img width="821" alt="StarWars 11" src="https://github.com/user-attachments/assets/e016a992-358a-4f22-80e4-46f79ff8d43e">
+
+
+## Features
+
+- **Characters**:
+  - Comprehensive profiles of Star Wars characters
+  - Detailed information including background, appearances, and abilities
+
+- **Planets**:
+  - In-depth descriptions of various planets in the Star Wars universe
+  - Information on climate, inhabitants, and significance in the storyline
+
+- **Starships**:
+  - Detailed specifications of famous Star Wars starships
+  - History, capabilities, and notable appearances
+
+
+## Technologies Used
+
+- **Backend**:
+  - Python
+  - Flask
+
+- **Database**:
+  - SQLAlchemy
+
+- **Frontend**:
+  - React.js
+
+- **External APIs**:
+  - [swapi.tech](https://swapi.tech)
+  - [swapi.info](https://swapi.info)
+
+
+
+
+
+
+
+
+
 # WebApp boilerplate with React JS and Flask API
 
 Build web applications using React.js for the front end and python/flask for your backend API.
